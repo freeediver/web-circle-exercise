@@ -52,6 +52,12 @@ const RestaurantView = () => {
   // This is especially important when using more controlled techniques like debouncing
   useEffect(debouncedEffectHook, [debouncedEffectHook]);
 
+
+  // update the introtuced term in the filter search field
+  const handleSearchChange = (term) => {
+    setSearchDish(term);
+  }
+
   return (
     <>
       <NavBar>
