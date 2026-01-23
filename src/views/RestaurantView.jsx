@@ -5,9 +5,11 @@ import MenuItem from "../components/MenuItem/MenuItem.jsx";
 import styles from "./RestaurantView.module.css";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import SearchField from "../components/SearchField/SearchField.jsx";
+import Input from './Input';
 
 const RestaurantView = () => {
   const [dishes, setDishes] = useState([]);
+  const searchDish = Input.useRef();
 
   // useDebouncedCallback takes a function as a parameter and as the second parameter
   // the number of milliseconds it should wait until it is actually called so a user
@@ -56,7 +58,7 @@ const RestaurantView = () => {
       <NavBar>
         <h1>ReDI React Restaurant</h1>
 
-        <SearchField />
+        <SearchField ref = {searchDish} />
       </NavBar>
 
       <div className={styles.restaurantWrapper}>
