@@ -57,7 +57,8 @@ const RestaurantView = () => {
       <NavBar>
         <h1>ReDI React Restaurant</h1>
 
-        <SearchField ref = {searchDish} />
+        <SearchField value = {searchDish}  
+                      onChange = { handleSearchChange }/>
       </NavBar>
 
       <div className={styles.restaurantWrapper}>

@@ -1,7 +1,11 @@
 import styles from "./SearchField.module.css";
 
-const SearchField = () => {
+const SearchField = ({ value, onChange }) => {
   
+  const handleChange = (e) => {
+      
+  }
+
   return (
     <div className={styles.wrapper}>
       <input
