@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDebouncedCallback } from 'use-debounce';
 import MenuItem from "../components/MenuItem/MenuItem.jsx";
 
@@ -9,9 +9,11 @@ import SearchField from "../components/SearchField/SearchField.jsx";
 const RestaurantView = () => {
   const [dishes, setDishes] = useState([]);
   const [searchDish, setSearchDish] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Fetch dishes from API with search dish's name entred by user
   const fetchDishes = (searchQuery = "") => {
+    setLoading(true);
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchQuery}`)
       .then(res => {
         if (!res.ok) {
@@ -27,6 +29,7 @@ const RestaurantView = () => {
         setDishes([]);
       })
       .finally(() => {
+        setLoading(false);
       });
   };
 
