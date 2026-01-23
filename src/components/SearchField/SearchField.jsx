@@ -3,7 +3,7 @@ import styles from "./SearchField.module.css";
 const SearchField = ({ value, onChange }) => {
   
   const handleChange = (e) => {
-      
+      onChange(e.target.value);
   }
 
   return (
@@ -11,6 +11,8 @@ const SearchField = ({ value, onChange }) => {
       <input
         placeholder="Filter dishes..."
         type="text"     
+        value={value}
+        onChange={handleChange}
       />
     </div>
   );
