@@ -5,11 +5,10 @@ import MenuItem from "../components/MenuItem/MenuItem.jsx";
 import styles from "./RestaurantView.module.css";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import SearchField from "../components/SearchField/SearchField.jsx";
-import Input from './Input';
 
 const RestaurantView = () => {
   const [dishes, setDishes] = useState([]);
-  const searchDish = Input.useRef();
+  const [searchDish, setSearchDish] = useState('');
 
   // useDebouncedCallback takes a function as a parameter and as the second parameter
   // the number of milliseconds it should wait until it is actually called so a user
@@ -18,7 +17,7 @@ const RestaurantView = () => {
   const debouncedEffectHook = useDebouncedCallback(() => {
     let currentEffect = true;
     fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?s=`
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchDish}`
     ).then(res => {
       if (!res.ok) {
         return { meals: null };
