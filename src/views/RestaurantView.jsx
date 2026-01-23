@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from 'use-debounce';
 import MenuItem from "../components/MenuItem/MenuItem.jsx";
 
@@ -8,42 +8,44 @@ import SearchField from "../components/SearchField/SearchField.jsx";
 
 const RestaurantView = () => {
   const [dishes, setDishes] = useState([]);
+  const [allDishes, setAllDishes] = useState([]);
   const [searchDish, setSearchDish] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Fetch dishes from API with search dish's name entred by user
-  const fetchDishes = (searchQuery = "") => {
-    setLoading(true);
-    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchQuery}`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then(result => {
-        setDishes(result.meals || []);
+   // Fetch dishes on component mount
+  useEffect(() => {
+    // Use a search term that will definitely return results
+    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+      .then(res => res.json())
+      .then(data => {
+        const fetchedDishes = data.meals || [];
+        setAllDishes(fetchedDishes);
+        setDishes(fetchedDishes);
+        setLoading(false);
       })
       .catch(error => {
         console.error("Error fetching dishes:", error);
-        setDishes([]);
-      })
-      .finally(() => {
         setLoading(false);
       });
-  };
+  }, []);
 
-  // Debounced API call
-  const debouncedSearch = useDebouncedCallback((term) => {
-    fetchDishes(term);
-  }, 500);
-
-
-  // update the introtuced term in the filter search field
+  // Handle search
   const handleSearchChange = (term) => {
     setSearchDish(term);
-    debouncedSearch(term);
-  }
+    
+    if (!term.trim()) {
+      setDishes(allDishes);
+      return;
+    }
+    
+    const filtered = allDishes.filter(dish => 
+      dish.strMeal.toLowerCase().includes(term.toLowerCase())
+    );
+    
+    setDishes(filtered);
+  };
+
+  
 
   return (
     <>
